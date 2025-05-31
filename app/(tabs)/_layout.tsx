@@ -1,6 +1,7 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
 
+import AuthHeaderButtons from '@/components/AuthHeaderButtons';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
@@ -78,6 +79,8 @@ export default function TabLayout() {
         options={{
           title: 'Dashboard',
           tabBarIcon: ({ color }) => <IconSymbol name="chart.bar.fill" size={24} color={color} />,
+          headerShown: true,
+          headerRight: () => <AuthHeaderButtons />,
         }}
       />
     </Tabs>

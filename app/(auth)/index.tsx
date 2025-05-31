@@ -1,0 +1,229 @@
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
+import { useAuth } from '@/context/AuthContext';
+import { useRouter } from 'expo-router';
+import React, { useState } from 'react';
+import { Dimensions, Image, ImageBackground, StyleSheet, View } from 'react-native';
+import { Button, TextInput } from 'react-native-paper';
+
+const { width, height } = Dimensions.get('window');
+
+export default function LoginScreen() {
+  const router = useRouter();
+  const { signIn } = useAuth();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = () => {
+    console.log('Attempting login with:', { email, password });
+    signIn();
+  };
+
+  const navigateToSignUp = () => {
+    router.push('/(auth)/signup');
+  };
+
+  const navigateToForgotPassword = () => {
+    // TODO: Implement Forgot Password navigation
+    console.log('Navigate to Forgot Password');
+  };
+
+  return (
+    <ImageBackground
+      source={require('@/assets/images/khpflightimage.png')}
+      style={styles.background}
+      resizeMode="cover"
+    >
+      <ThemedView style={styles.overlay}>
+        <View style={styles.loginContainer}>
+          <View style={styles.headerContainer}>
+            <Image
+              source={require('@/assets/images/logo.png')}
+              style={styles.logo}
+              resizeMode="contain"
+            />
+            <View>
+               <ThemedText style={styles.siteTitle}>SWT TRAVEL AGENT RUSTENBURG</ThemedText>
+               <ThemedText style={styles.agencySolution}>B2BAgency Solution</ThemedText>
+            </View>
+          </View>
+
+          <View style={styles.countryContainer}>
+             <Image
+               source={require('@/assets/images/south-africa-flag.png')}
+               style={styles.flag}
+               resizeMode="contain"
+             />
+             <ThemedText style={styles.countryText}>SOUTH AFRICA</ThemedText>
+          </View>
+
+          <ThemedText style={styles.inputLabel}>Username*</ThemedText>
+          <TextInput
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            style={styles.input}
+            mode="outlined"
+            textColor="#000"
+          />
+
+          <ThemedText style={styles.inputLabel}>Password*</ThemedText>
+          <TextInput
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+            style={styles.input}
+            mode="outlined"
+            textColor="#000"
+          />
+
+          <Button
+            textColor="#fff"
+            mode="contained" onPress={handleLogin} style={styles.button}>
+            LOGIN
+          </Button>
+
+          <View style={styles.linksContainer}>
+            <Button mode="text" onPress={navigateToSignUp} style={styles.linkButton} labelStyle={styles.linkButtonLabel}>
+              Don't have an account? Sign Up
+            </Button>
+             <Button mode="text" onPress={navigateToForgotPassword} style={styles.linkButton} labelStyle={styles.linkButtonLabel}>
+              Forgot Password ?
+            </Button>
+          </View>
+
+        </View>
+
+        <View style={styles.offerCard}>
+          <Image
+            source={require('@/assets/images/travel-scene.png')}
+            style={styles.offerImage}
+            resizeMode="cover"
+          />
+          <View style={styles.offerTextContainer}>
+            <ThemedText style={styles.offerTitle}>Get 14% Off on Flights</ThemedText>
+            <ThemedText style={styles.offerValid}>Valid till : Jan 15, 2025</ThemedText>
+          </View>
+        </View>
+
+      </ThemedView>
+    </ImageBackground>
+  );
+}
+
+const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  overlay: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    padding: 20,
+  },
+  loginContainer: {
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    borderRadius: 15,
+    padding: 20,
+    alignItems: 'center',
+    width: width * 0.4,
+    maxWidth: 400,
+    marginRight: 20,
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  logo: {
+    width: 60,
+    height: 60,
+    marginRight: 10,
+  },
+  siteTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+   agencySolution: {
+    fontSize: 14,
+    color: '#000',
+  },
+  countryContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  flag: {
+    width: 24,
+    height: 24,
+    marginRight: 5,
+  },
+  countryText: {
+    fontSize: 14,
+    color: '#000',
+  },
+  inputLabel: {
+    alignSelf: 'flex-start',
+    marginBottom: 5,
+    fontSize: 14,
+    color: '#000',
+  },
+  input: {
+    width: '100%',
+    marginBottom: 15,
+    backgroundColor: '#fff',
+  },
+  button: {
+    width: '100%',
+    marginTop: 10,
+    marginBottom: 10,
+    backgroundColor: '#0a7ea4',
+    paddingVertical: 8,
+  },
+  linksContainer: {
+     flexDirection: 'row',
+     justifyContent: 'space-between',
+     width: '100%',
+     marginTop: 10,
+  },
+  linkButton: {
+  },
+  linkButtonLabel: {
+    fontSize: 12,
+    color: '#0a7ea4',
+  },
+  offerCard: {
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    borderRadius: 15,
+    overflow: 'hidden',
+    width: width * 0.3,
+    maxWidth: 300,
+  },
+  offerImage: {
+    width: '100%',
+    height: 120,
+  },
+  offerTextContainer: {
+    padding: 10,
+  },
+  offerTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#000',
+    marginBottom: 5,
+  },
+  offerValid: {
+    fontSize: 12,
+    color: '#555',
+  },
+}); 
